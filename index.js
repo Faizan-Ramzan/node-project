@@ -3,7 +3,6 @@ const fs = require('fs');
 const dotenv = require('dotenv');
 dotenv.config();
 const homeDir = os.homedir() + process.env.DIRECTORY_PATH;
-// console.log(homeDir);
 
 const pathWithName = homeDir + 'operating-system-info.txt';
 
@@ -67,11 +66,3 @@ try {
 } catch (err) {
   console.error(err);
 }
-
-// console.log(process.env.DIRECTORY_PATH);
-
-// write file function resolve in promise
-// home directory desktop
-
-//npm husky package
-//prettier / eslint
