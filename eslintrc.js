@@ -2,7 +2,7 @@ module.exports = {
   extends: 'eslint:recommended',
   rules: {
     // enable additional rules
-    indent: ['error', 'tab'],
+    indent: ['error', 4],
     'linebreak-style': ['error', 'unix'],
     quotes: ['error', 'double'],
     semi: ['error', 'always'],
