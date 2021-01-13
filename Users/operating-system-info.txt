@@ -1,5 +1,0 @@
-Platform : linux
-Architecture: x64
-No of CPU's: 8
-Uptime of operating systems in Seconds: 2872
-User Information: faizan-invozone

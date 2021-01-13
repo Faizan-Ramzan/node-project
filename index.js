@@ -1,26 +1,67 @@
 var os = require('os');
-var fs = require('fs');
-var dotenv = require('dotenv');
-var path = require('path');
+const fs = require('fs');
+const dotenv = require('dotenv');
 dotenv.config();
+const homeDir = os.homedir()+process.env.DIRECTORY_PATH;
+// console.log(homeDir);
 
-var filePath = process.env.DIRECTORY_PATH;
+const pathWithName = homeDir + "operating-system-info.txt";
 
-function operatingSystemInfo(){
-    var str = `Platform : ${os.platform()}\nArchitecture: ${os.arch()}\nNo of CPU's: ${os.cpus().length}\nUptime of operating systems in Seconds: ${os.uptime()}\nUser Information: ${os.userInfo().username}`;
+const operatingSystemInfo = () => {
+    let str = `Platform : ${os.platform()}\nArchitecture: ${os.arch()}\nNo of CPU's: ${os.cpus().length}\nUptime of operating systems in Seconds: ${os.uptime()}\nUser Information: ${os.userInfo().username}`;
 
     return str;
 }
+
+let dirPromise = new Promise((resolve, reject) => {
+    fs.mkdir(homeDir, { recursive: true }, (err) => {
+        if (err) {
+            reject(err);
+        }else{
+            resolve("Directory is created.");
+        }
+    });
+});
+let fileWritePromise = new Promise((resolve, reject) => {
+    setTimeout(() => {
+        fs.writeFile(pathWithName, operatingSystemInfo(), (err) => {
+            if (err){
+                reject(err);
+            }else{
+                resolve("File is created.")
+            }
+        });
+    }, 500);
+});
+
+try {
+    if (fs.existsSync(pathWithName)) {
+        fileWritePromise.then((res)=>{
+            console.log("updated successfully");
+        }).catch(err=>{
+            console.log("not updated!");
+        });
+    }else{
+        dirPromise.then((res) => {
+            console.log(res);
+            fileWritePromise.then((fileRes)=>{
+                console.log(fileRes);
+            }).catch(comErr=>{
+                console.log("File not created!");
+            });
+        }).catch(err=>{
+            console.log(err);
+        });
+
+    }
+} catch(err) {
+    console.error(err)
+}
+
 // console.log(process.env.DIRECTORY_PATH);
 
-fs.mkdir(filePath, { recursive: true }, (err) => {
-    if (err) {
-        throw err;
-    }
-    console.log("Directory is created.");
-    
-    fs.writeFile('Users/operating-system-info.txt', operatingSystemInfo() , function (err) {
-        if (err) throw err;
-        console.log('Saved!');
-    }); 
-});
+// write file function resolve in promise
+// home directory desktop
+
+//npm husky package
+//prettier / eslint
